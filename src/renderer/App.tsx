@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  MemoryRouter as Router,
   Redirect,
   Route,
   Switch,
