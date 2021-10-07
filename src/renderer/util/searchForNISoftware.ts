@@ -1,4 +1,4 @@
-import fs from 'fs';
+const { fs } = window;
 
 /**
  * A unique path for each supported operating system.
@@ -7,7 +7,9 @@ interface SupportedEnvironments {
   darwin: string;
 }
 
-const CURRENT_ENV: keyof SupportedEnvironments = 'darwin';
+const CURRENT_ENV = (function getCurrentEnv(): keyof SupportedEnvironments {
+  return 'darwin';
+})();
 
 /**
  * The type of software a Native Instruments installation is.
@@ -20,7 +22,7 @@ type NISoftwareType = 'Application' | 'Plugin' | 'Support';
 interface NISoftware {
   name: string;
   type: NISoftwareType;
-  resources: ResourcePath[];
+  resources: ResourceStat[];
 }
 
 /**
@@ -55,8 +57,8 @@ class ResourcePath {
     public readonly path: SupportedEnvironments
   ) {}
 
-  format(bundleName: string) {
-    return this.path[CURRENT_ENV].replace(`<productName>`, bundleName);
+  format(productName: string) {
+    return this.path[CURRENT_ENV].replace(`<productName>`, productName);
   }
 }
 
@@ -73,21 +75,39 @@ const RESOUCE_MAP: NISoftwareResourceMap = {
   Support: [],
 };
 
+export function findNISoftware(type: NISoftwareType): NISoftware[] {
+  return [
+    {
+      name: 'X',
+      resources: [
+        {
+          exists: true,
+          path: '',
+        },
+      ],
+      type: 'Application',
+    },
+  ];
+}
+
 /**
  * Searches for a Native Instruments software installation.
  * @param type The type of software to search for.
  * @param name The name of the software to search for.
  * @returns An array of paths to the software resources and whether they exist or not.
  */
-export function searchForNISoftware(type: NISoftwareType, name: string) {
+export function searchForNISoftware(
+  type: NISoftwareType,
+  name: string
+): NISoftware {
   const paths = RESOUCE_MAP[type];
 
   const formattedPaths = paths.map((path) => path.format(name));
 
-  const existingResources: ResourceStat[] = formattedPaths.map((path) => ({
+  const resources: ResourceStat[] = formattedPaths.map((path) => ({
     path,
     exists: fs.existsSync(path),
   }));
 
-  return existingResources;
+  return { name, type, resources };
 }

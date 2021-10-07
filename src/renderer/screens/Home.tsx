@@ -2,6 +2,7 @@ import React from 'react';
 import Library from 'renderer/components/Library';
 import Navbar from 'renderer/components/Navbar';
 import Searchbar from 'renderer/components/Searchbar';
+import { findNISoftware } from 'renderer/util/searchForNISoftware';
 
 export default function Home() {
   const [, onSearch] = React.useState('');
@@ -14,22 +15,17 @@ export default function Home() {
       <h1 className="text-xl font-bold text-center">Libraries</h1>
 
       <div className="px-10 my-10 flex flex-col space-y-5">
-        <Library
-          name="Session Strings Pro"
-          path="/Users/estebangarcia/Shared/SessionStringsPro.kontakt"
-          size={{
-            unit: 'GB',
-            value: 45,
-          }}
-        />
-        <Library
-          name="Mallet Flux"
-          path="/Users/estebangarcia/Shared/MalletFlux.kontakt"
-          size={{
-            unit: 'GB',
-            value: 32,
-          }}
-        />
+        {findNISoftware('Application').map(({ name, resources }) => (
+          <Library
+            key={name}
+            name={name}
+            path={resources[0].path || ''}
+            size={{
+              unit: 'GB',
+              value: 43,
+            }}
+          />
+        ))}
       </div>
     </div>
   );

@@ -3,16 +3,16 @@ import { GrCheckbox } from '@react-icons/all-files/gr/GrCheckbox';
 import { GrCheckboxSelected } from '@react-icons/all-files/gr/GrCheckboxSelected';
 
 export type SizeUnit = 'MB' | 'GB' | 'TB';
-export type FileSize = {
+export interface FileSize {
   value: number;
   unit: SizeUnit;
-};
+}
 
-export type LibraryProps = {
+export interface LibraryProps {
   name: string;
   path: string;
   size: FileSize;
-};
+}
 
 export default function Library({ name, path, size }: LibraryProps) {
   const [selected, setSelected] = useState(false);

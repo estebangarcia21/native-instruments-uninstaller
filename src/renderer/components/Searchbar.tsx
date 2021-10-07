@@ -1,9 +1,9 @@
 import React from 'react';
 import { AiOutlineSearch } from '@react-icons/all-files/ai/AiOutlineSearch';
 
-export type SearchbarProps = {
+export interface SearchbarProps {
   onSearch: (value: string) => void;
-};
+}
 
 export default function Searchbar({ onSearch }: SearchbarProps) {
   return (
