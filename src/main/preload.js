@@ -1,7 +1,15 @@
-const { contextBridge, ipcRenderer } = require('electron');
-const fs = require('fs');
+// @ts-check
 
-contextBridge.exposeInMainWorld('fs', fs);
+const { contextBridge, ipcRenderer } = require('electron');
+
+require('./contextBridge/dist/libs').default.forEach((lib) => {
+  /**
+   * @type {ElectronContextIsolationLib<unknown>}
+   */
+  const { name, contents } = lib;
+
+  contextBridge.exposeInMainWorld(name, contents);
+});
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
@@ -11,14 +19,12 @@ contextBridge.exposeInMainWorld('electron', {
     on(channel, func) {
       const validChannels = ['ipc-example'];
       if (validChannels.includes(channel)) {
-        // Deliberately strip event as it includes `sender`
         ipcRenderer.on(channel, (event, ...args) => func(...args));
       }
     },
     once(channel, func) {
       const validChannels = ['ipc-example'];
       if (validChannels.includes(channel)) {
-        // Deliberately strip event as it includes `sender`
         ipcRenderer.once(channel, (event, ...args) => func(...args));
       }
     },

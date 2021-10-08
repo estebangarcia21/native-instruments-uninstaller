@@ -1,4 +1,5 @@
-const { fs } = window;
+import fs from 'fs';
+import lib from '..';
 
 /**
  * A unique path for each supported operating system.
@@ -75,7 +76,7 @@ const RESOUCE_MAP: NISoftwareResourceMap = {
   Support: [],
 };
 
-export function findNISoftware(type: NISoftwareType): NISoftware[] {
+export function findNISoftware(): NISoftware[] {
   return [
     {
       name: 'X',
@@ -111,3 +112,8 @@ export function searchForNISoftware(
 
   return { name, type, resources };
 }
+
+export default lib('nativeInstruments', {
+  findNISoftware,
+  searchForNISoftware,
+});

@@ -1,28 +1,22 @@
 {
   "compilerOptions": {
     "target": "ES2018",
-    "module": "CommonJS",
-    "lib": ["dom", "esnext"],
-    "declaration": true,
-    "declarationMap": true,
-    "noEmit": true,
-    "jsx": "react",
+    "module": "AMD",
+    "lib": ["es5"],
     "strict": true,
     "pretty": true,
     "sourceMap": true,
-    "baseUrl": "./src",
-    /* Additional Checks */
+    "baseUrl": "./libs",
+    "outDir": "dist",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    /* Module Resolution Options */
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
     "noImplicitAny": false
-  },
-  "exclude": ["test", "build/release", "build/app/dist", ".erb/dll"]
+  }
 }

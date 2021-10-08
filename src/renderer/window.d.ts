@@ -1,9 +1,7 @@
-import fs from 'fs';
-
-export {};
+import nativeInstruments from 'main/contextBridge/libs/nativeInstruments';
 
 declare global {
   interface Window {
-    fs: typeof fs;
+    nativeInstruments: typeof nativeInstruments.contents;
   }
 }
