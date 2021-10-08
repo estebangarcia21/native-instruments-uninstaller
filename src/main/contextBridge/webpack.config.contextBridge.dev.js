@@ -1,35 +1,12 @@
-const path = require('path');
+const { merge } = require('webpack-merge');
+const chalk = require('chalk');
+const baseConfig = require('./webpack.config.contextBridge.base');
 
-const entry = path.join(__dirname, 'libs/index.ts');
+console.log(
+  chalk.red.bold('Listening for changes to the contextBridge libraries')
+);
 
-module.exports = {
+module.exports = merge(baseConfig, {
   mode: 'development',
-  target: 'electron-main',
-  entry,
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'libs.js',
-    library: {
-      name: 'NIFilesystemManagement',
-      type: 'umd',
-    },
-  },
-  resolve: {
-    extensions: ['.ts'],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader',
-          options: {
-            configFile: 'tsconfig.contextBridge.json',
-            onlyCompileBundledFiles: true,
-          },
-        },
-      },
-    ],
-  },
-};
+  watch: true
+});

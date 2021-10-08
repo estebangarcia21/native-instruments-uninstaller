@@ -2,6 +2,8 @@
 
 const { contextBridge, ipcRenderer } = require('electron');
 
+console.log(require('./contextBridge/dist/libs').default);
+
 require('./contextBridge/dist/libs').default.forEach((lib) => {
   /**
    * @type {ElectronContextIsolationLib<unknown>}
@@ -27,6 +29,6 @@ contextBridge.exposeInMainWorld('electron', {
       if (validChannels.includes(channel)) {
         ipcRenderer.once(channel, (event, ...args) => func(...args));
       }
-    },
-  },
+    }
+  }
 });
