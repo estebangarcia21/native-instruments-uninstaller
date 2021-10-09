@@ -9,11 +9,11 @@ module.exports = {
     filename: 'libs.js',
     library: {
       name: 'niFilesystemManagement',
-      type: 'umd'
-    }
+      type: 'umd',
+    },
   },
   resolve: {
-    extensions: ['.js', '.ts']
+    extensions: ['.js', '.ts'],
   },
   module: {
     rules: [
@@ -24,10 +24,10 @@ module.exports = {
           loader: 'ts-loader',
           options: {
             configFile: 'tsconfig.contextBridge.json',
-            onlyCompileBundledFiles: true
-          }
-        }
-      }
-    ]
-  }
+            onlyCompileBundledFiles: true,
+          },
+        },
+      },
+    ],
+  },
 };

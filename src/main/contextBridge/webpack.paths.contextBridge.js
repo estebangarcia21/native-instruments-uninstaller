@@ -1,3 +1,3 @@
 module.exports = {
-  exporter: 'index.ts'
+  exporter: 'index.ts',
 };

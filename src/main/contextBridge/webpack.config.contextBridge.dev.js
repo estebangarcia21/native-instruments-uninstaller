@@ -8,5 +8,5 @@ console.log(
 
 module.exports = merge(baseConfig, {
   mode: 'development',
-  watch: true
+  watch: true,
 });

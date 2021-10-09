@@ -5,5 +5,5 @@ const baseConfig = require('./webpack.config.contextBridge.base');
 console.log(chalk.blueBright.bold('Bundling context libraries for production'));
 
 module.exports = merge(baseConfig, {
-  mode: 'production'
+  mode: 'production',
 });
