@@ -3,7 +3,6 @@ import Library from 'renderer/components/Library';
 import Navbar from 'renderer/components/Navbar';
 import Searchbar from 'renderer/components/Searchbar';
 
-// const { findNISoftware } = window.nativeInstruments;
 const { findNISoftware } = window.nativeInstruments;
 
 export default function Home() {
@@ -24,7 +23,7 @@ export default function Home() {
             path={resources[0].path || ''}
             size={{
               unit: 'GB',
-              value: 43,
+              value: 43
             }}
           />
         ))}

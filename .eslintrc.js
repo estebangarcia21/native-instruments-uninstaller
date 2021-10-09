@@ -1,21 +1,25 @@
 module.exports = {
-  extends: ['prettier'],
+  extends: ['plugin:react/recommended'],
+  plugins: ['react'],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
-    createDefaultProgram: true,
+    createDefaultProgram: true
   },
   settings: {
     'import/resolver': {
       node: {},
       webpack: {
-        config: require.resolve('./.erb/configs/webpack.config.eslint.js'),
-      },
+        config: require.resolve('./.erb/configs/webpack.config.eslint.js')
+      }
     },
     'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
+      '@typescript-eslint/parser': ['.ts', '.tsx']
     },
-  },
+    react: {
+      version: 'detect'
+    }
+  }
 };

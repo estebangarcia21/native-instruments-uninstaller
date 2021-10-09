@@ -3,7 +3,7 @@ import {
   MemoryRouter as Router,
   Redirect,
   Route,
-  Switch,
+  Switch
 } from 'react-router-dom';
 import './App.global.css';
 import Home from './screens/Home';
