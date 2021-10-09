@@ -2,8 +2,6 @@
 
 const { contextBridge, ipcRenderer } = require('electron');
 
-console.log(require('./contextBridge/dist/libs').default);
-
 require('./contextBridge/dist/libs').default.forEach((lib) => {
   /**
    * @type {ElectronContextIsolationLib<unknown>}
