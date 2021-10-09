@@ -1,9 +1,9 @@
 const path = require('path');
-const entry = require('./entry');
+const webpackPaths = require('./webpack.paths.contextBridge');
 
 module.exports = {
   target: 'electron-main',
-  entry: path.join(__dirname, 'libs', entry),
+  entry: path.join(__dirname, 'libs', webpackPaths.exporter),
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'libs.js',
