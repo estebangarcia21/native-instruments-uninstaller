@@ -1,8 +1,9 @@
 const path = require('path');
+const entry = require('./entry');
 
 module.exports = {
   target: 'electron-main',
-  entry: path.join(__dirname, 'libs/index.ts'),
+  entry: path.join(__dirname, 'libs', entry),
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'libs.js',
