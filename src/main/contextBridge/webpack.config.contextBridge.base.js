@@ -3,17 +3,17 @@ const webpackPaths = require('./webpack.paths.contextBridge');
 
 module.exports = {
   target: 'electron-main',
-  entry: path.join(__dirname, 'libs', webpackPaths.exporter),
+  entry: webpackPaths.libsExporter,
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: webpackPaths.outDir,
     filename: 'libs.js',
     library: {
       name: 'niFilesystemManagement',
-      type: 'umd',
-    },
+      type: 'umd'
+    }
   },
   resolve: {
-    extensions: ['.js', '.ts'],
+    extensions: ['.js', '.ts']
   },
   module: {
     rules: [
@@ -24,10 +24,10 @@ module.exports = {
           loader: 'ts-loader',
           options: {
             configFile: 'tsconfig.contextBridge.json',
-            onlyCompileBundledFiles: true,
-          },
-        },
-      },
-    ],
-  },
+            onlyCompileBundledFiles: true
+          }
+        }
+      }
+    ]
+  }
 };

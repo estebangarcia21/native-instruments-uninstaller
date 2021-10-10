@@ -50,6 +50,7 @@ type NISoftwareResourceMap = {
 export interface ResourceStat {
   path: string;
   exists: boolean;
+  byteSize: number;
 }
 
 class ResourcePath {
@@ -66,17 +67,17 @@ class ResourcePath {
 const RESOUCE_MAP: NISoftwareResourceMap = {
   Application: [
     new ResourcePath('folder', {
-      darwin: '/Applications/Native Instruments/<productName>',
+      darwin: '/Applications/Native Instruments/<productName>'
     }),
     new ResourcePath('plist', {
-      darwin: '/Library/Preferences/com.native-instruments.<productName>.plist',
-    }),
+      darwin: '/Library/Preferences/com.native-instruments.<productName>.plist'
+    })
   ],
   Plugin: [],
-  Support: [],
+  Support: []
 };
 
-export function findNISoftware(): NISoftware[] {
+export function findNISoftware(name: string): NISoftware[] {
   return [
     {
       name: 'X',
@@ -84,10 +85,11 @@ export function findNISoftware(): NISoftware[] {
         {
           exists: true,
           path: '',
-        },
+          byteSize: 0
+        }
       ],
-      type: 'Application',
-    },
+      type: 'Application'
+    }
   ];
 }
 
@@ -105,15 +107,19 @@ export function searchForNISoftware(
 
   const formattedPaths = paths.map((path) => path.format(name));
 
-  const resources: ResourceStat[] = formattedPaths.map((path) => ({
-    path,
-    exists: fs.existsSync(path),
-  }));
+  const resources: ResourceStat[] = formattedPaths.map((path) => {
+    const exists = fs.existsSync(path);
+    return {
+      path,
+      exists,
+      byteSize: exists ? fs.statSync(path).size : 0
+    };
+  });
 
   return { name, type, resources };
 }
 
 export default lib('nativeInstruments', {
   findNISoftware,
-  searchForNISoftware,
+  searchForNISoftware
 });
