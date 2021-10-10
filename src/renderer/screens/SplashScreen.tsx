@@ -7,7 +7,7 @@ export default function SplashScreen() {
   useEffect(() => {
     setTimeout(() => {
       history.push('/home');
-    }, 1000);
+    }, 500);
   });
 
   return (

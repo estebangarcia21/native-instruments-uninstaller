@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GrCheckbox } from '@react-icons/all-files/gr/GrCheckbox';
 import { GrCheckboxSelected } from '@react-icons/all-files/gr/GrCheckboxSelected';
 
-export type SizeUnit = 'MB' | 'GB' | 'TB';
+export type SizeUnit = 'MB' | 'GB' | 'TB' | 'B';
 export interface FileSize {
   value: number;
   unit: SizeUnit;

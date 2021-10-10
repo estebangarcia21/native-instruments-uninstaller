@@ -3,7 +3,7 @@ import Library from 'renderer/components/Library';
 import Navbar from 'renderer/components/Navbar';
 import Searchbar from 'renderer/components/Searchbar';
 
-const { findNISoftware } = window.nativeInstruments;
+const { searchForNISoftware } = window.nativeInstruments;
 
 export default function Home() {
   const [, onSearch] = React.useState('');
@@ -16,17 +16,19 @@ export default function Home() {
       <h1 className="text-xl font-bold text-center">Libraries</h1>
 
       <div className="px-10 my-10 flex flex-col space-y-5">
-        {findNISoftware().map(({ name, resources }) => (
-          <Library
-            key={name}
-            name={name}
-            path={resources[0].path || ''}
-            size={{
-              unit: 'GB',
-              value: 43
-            }}
-          />
-        ))}
+        {[searchForNISoftware('Application', 'Battery 4')].map(
+          ({ name, resources }) => (
+            <Library
+              key={name}
+              name={name}
+              path={resources[0].path || ''}
+              size={{
+                unit: 'B',
+                value: resources[0].byteSize
+              }}
+            />
+          )
+        )}
       </div>
     </div>
   );
