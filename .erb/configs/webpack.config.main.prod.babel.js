@@ -18,7 +18,7 @@ deleteSourceMaps();
 const devtoolsConfig =
   process.env.DEBUG_PROD === 'true'
     ? {
-        devtool: 'source-map',
+        devtool: 'source-map'
       }
     : {};
 
@@ -31,27 +31,27 @@ export default merge(baseConfig, {
 
   entry: {
     main: path.join(webpackPaths.srcMainPath, 'main.ts'),
-    preload: path.join(webpackPaths.srcMainPath, 'preload.js'),
+    preload: path.join(webpackPaths.srcMainPath, 'preload.js')
   },
 
   output: {
     path: webpackPaths.distMainPath,
-    filename: '[name].js',
+    filename: '[name].js'
   },
 
   optimization: {
     minimizer: [
       new TerserPlugin({
-        parallel: true,
-      }),
-    ],
+        parallel: true
+      })
+    ]
   },
 
   plugins: [
     new BundleAnalyzerPlugin({
       analyzerMode:
         process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
-      openAnalyzer: process.env.OPEN_ANALYZER === 'true',
+      openAnalyzer: process.env.OPEN_ANALYZER === 'true'
     }),
 
     /**
@@ -66,8 +66,8 @@ export default merge(baseConfig, {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
       DEBUG_PROD: false,
-      START_MINIMIZED: false,
-    }),
+      START_MINIMIZED: false
+    })
   ],
 
   /**
@@ -77,6 +77,6 @@ export default merge(baseConfig, {
    */
   node: {
     __dirname: false,
-    __filename: false,
-  },
+    __filename: false
+  }
 });

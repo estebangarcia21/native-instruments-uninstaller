@@ -1,7 +1,7 @@
 import fs from 'fs';
 import {
   appNodeModulesPath,
-  srcNodeModulesPath,
+  srcNodeModulesPath
 } from '../configs/webpack.paths.js';
 
 if (!fs.existsSync(srcNodeModulesPath) && fs.existsSync(appNodeModulesPath)) {

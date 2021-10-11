@@ -18,19 +18,19 @@ export default {
         use: {
           loader: 'babel-loader',
           options: {
-            cacheDirectory: true,
-          },
-        },
-      },
-    ],
+            cacheDirectory: true
+          }
+        }
+      }
+    ]
   },
 
   output: {
     path: webpackPaths.srcPath,
     // https://github.com/webpack/webpack/issues/1114
     library: {
-      type: 'commonjs2',
-    },
+      type: 'commonjs2'
+    }
   },
 
   /**
@@ -38,12 +38,12 @@ export default {
    */
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
-    modules: [webpackPaths.srcPath, 'node_modules'],
+    modules: [webpackPaths.srcPath, 'node_modules']
   },
 
   plugins: [
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production',
-    }),
-  ],
+      NODE_ENV: 'production'
+    })
+  ]
 };

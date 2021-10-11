@@ -31,7 +31,7 @@ export default merge(baseConfig, {
   module: require('./webpack.config.renderer.dev.babel').default.module,
 
   entry: {
-    renderer: Object.keys(dependencies || {}),
+    renderer: Object.keys(dependencies || {})
   },
 
   output: {
@@ -39,8 +39,8 @@ export default merge(baseConfig, {
     filename: '[name].dev.dll.js',
     library: {
       name: 'renderer',
-      type: 'var',
-    },
+      type: 'var'
+    }
   },
 
   stats: 'errors-only',
@@ -48,7 +48,7 @@ export default merge(baseConfig, {
   plugins: [
     new webpack.DllPlugin({
       path: path.join(dist, '[name].json'),
-      name: '[name]',
+      name: '[name]'
     }),
 
     /**
@@ -61,7 +61,7 @@ export default merge(baseConfig, {
      * development checks
      */
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
+      NODE_ENV: 'development'
     }),
 
     new webpack.LoaderOptionsPlugin({
@@ -69,9 +69,9 @@ export default merge(baseConfig, {
       options: {
         context: webpackPaths.srcPath,
         output: {
-          path: webpackPaths.dllPath,
-        },
-      },
-    }),
-  ],
+          path: webpackPaths.dllPath
+        }
+      }
+    })
+  ]
 });

@@ -6,11 +6,11 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
-      colors,
-    },
+      colors
+    }
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 };

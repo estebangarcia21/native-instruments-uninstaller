@@ -21,7 +21,7 @@ deleteSourceMaps();
 const devtoolsConfig =
   process.env.DEBUG_PROD === 'true'
     ? {
-        devtool: 'source-map',
+        devtool: 'source-map'
       }
     : {};
 
@@ -35,7 +35,7 @@ export default merge(baseConfig, {
   entry: [
     'core-js',
     'regenerator-runtime/runtime',
-    path.join(webpackPaths.srcRendererPath, 'index.tsx'),
+    path.join(webpackPaths.srcRendererPath, 'index.tsx')
   ],
 
   output: {
@@ -43,8 +43,8 @@ export default merge(baseConfig, {
     publicPath: './',
     filename: 'renderer.js',
     library: {
-      type: 'umd',
-    },
+      type: 'umd'
+    }
   },
 
   module: {
@@ -57,12 +57,12 @@ export default merge(baseConfig, {
             loader: MiniCssExtractPlugin.loader,
             options: {
               // `./dist` can't be inerhited for publicPath for styles. Otherwise generated paths will be ./dist/dist
-              publicPath: './',
-            },
+              publicPath: './'
+            }
           },
           'css-loader',
-          'sass-loader',
-        ],
+          'sass-loader'
+        ]
       },
       // WOFF Font
       {
@@ -71,9 +71,9 @@ export default merge(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'application/font-woff',
-          },
-        },
+            mimetype: 'application/font-woff'
+          }
+        }
       },
       // WOFF2 Font
       {
@@ -82,9 +82,9 @@ export default merge(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'application/font-woff',
-          },
-        },
+            mimetype: 'application/font-woff'
+          }
+        }
       },
       // OTF Font
       {
@@ -93,9 +93,9 @@ export default merge(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'font/otf',
-          },
-        },
+            mimetype: 'font/otf'
+          }
+        }
       },
       // TTF Font
       {
@@ -104,14 +104,14 @@ export default merge(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'application/octet-stream',
-          },
-        },
+            mimetype: 'application/octet-stream'
+          }
+        }
       },
       // EOT Font
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'file-loader',
+        use: 'file-loader'
       },
       // SVG Font
       {
@@ -120,26 +120,26 @@ export default merge(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'image/svg+xml',
-          },
-        },
+            mimetype: 'image/svg+xml'
+          }
+        }
       },
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: 'url-loader',
-      },
-    ],
+        use: 'url-loader'
+      }
+    ]
   },
 
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        parallel: true,
+        parallel: true
       }),
-      new CssMinimizerPlugin(),
-    ],
+      new CssMinimizerPlugin()
+    ]
   },
 
   plugins: [
@@ -154,17 +154,17 @@ export default merge(baseConfig, {
      */
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
-      DEBUG_PROD: false,
+      DEBUG_PROD: false
     }),
 
     new MiniCssExtractPlugin({
-      filename: 'style.css',
+      filename: 'style.css'
     }),
 
     new BundleAnalyzerPlugin({
       analyzerMode:
         process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
-      openAnalyzer: process.env.OPEN_ANALYZER === 'true',
+      openAnalyzer: process.env.OPEN_ANALYZER === 'true'
     }),
 
     new HtmlWebpackPlugin({
@@ -173,10 +173,10 @@ export default merge(baseConfig, {
       minify: {
         collapseWhitespace: true,
         removeAttributeQuotes: true,
-        removeComments: true,
+        removeComments: true
       },
       isBrowser: false,
-      isDevelopment: process.env.NODE_ENV !== 'production',
-    }),
-  ],
+      isDevelopment: process.env.NODE_ENV !== 'production'
+    })
+  ]
 });

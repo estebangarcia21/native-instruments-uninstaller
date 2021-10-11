@@ -8,7 +8,7 @@ const productionPlugins = [
   // babel-preset-react-optimize
   require('@babel/plugin-transform-react-constant-elements'),
   require('@babel/plugin-transform-react-inline-elements'),
-  require('babel-plugin-transform-react-remove-prop-types'),
+  require('babel-plugin-transform-react-remove-prop-types')
 ];
 
 module.exports = (api) => {
@@ -21,7 +21,7 @@ module.exports = (api) => {
       // @babel/preset-env will automatically target our browserslist targets
       require('@babel/preset-env'),
       require('@babel/preset-typescript'),
-      [require('@babel/preset-react'), { development }],
+      [require('@babel/preset-react'), { development }]
     ],
     plugins: [
       // Stage 0
@@ -33,7 +33,7 @@ module.exports = (api) => {
       [require('@babel/plugin-proposal-optional-chaining')],
       [
         require('@babel/plugin-proposal-pipeline-operator'),
-        { proposal: 'minimal' },
+        { proposal: 'minimal' }
       ],
       [require('@babel/plugin-proposal-nullish-coalescing-operator')],
       require('@babel/plugin-proposal-do-expressions'),
@@ -51,7 +51,7 @@ module.exports = (api) => {
       [require('@babel/plugin-proposal-class-properties')],
       require('@babel/plugin-proposal-json-strings'),
 
-      ...(development ? developmentPlugins : productionPlugins),
-    ],
+      ...(development ? developmentPlugins : productionPlugins)
+    ]
   };
 };

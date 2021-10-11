@@ -6,7 +6,7 @@ const args = process.argv.slice(2);
 const commandMap = {
   dist: webpackPaths.releasePath,
   release: webpackPaths.distPath,
-  dll: webpackPaths.dllPath,
+  dll: webpackPaths.dllPath
 };
 
 args.forEach((x) => {
