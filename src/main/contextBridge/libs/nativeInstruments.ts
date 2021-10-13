@@ -23,7 +23,7 @@ type NISoftwareType = 'Application' | 'Plugin' | 'Support';
 /**
  * A Native Instruments software installation.
  */
-interface NISoftware {
+export interface NISoftware {
   name: string;
   type: NISoftwareType;
   resources: ResourceStat[];
@@ -200,7 +200,12 @@ export function searchForNISoftware(
   return { name, type, resources };
 }
 
+export function totalResourceSize(resources: ResourceStat[]) {
+  return resources.reduce((acc, curr) => acc + curr.byteSize, 0);
+}
+
 export default lib('nativeInstruments', {
   findNISoftware,
-  searchForNISoftware
+  searchForNISoftware,
+  totalResourceSize
 });

@@ -23,8 +23,7 @@ module.exports = {
         use: {
           loader: 'ts-loader',
           options: {
-            configFile: 'tsconfig.contextBridge.json',
-            onlyCompileBundledFiles: true
+            configFile: 'tsconfig.contextBridge.json'
           }
         }
       }
