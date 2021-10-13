@@ -1,14 +1,17 @@
 import fs from 'fs';
+import path from 'path';
 import lib from '..';
 
 /**
  * A unique path for each supported operating system.
  */
-interface SupportedEnvironments {
-  darwin: string;
+interface Environment<T = unknown> {
+  darwin: T;
 }
 
-const CURRENT_ENV = (function getCurrentEnv(): keyof SupportedEnvironments {
+type EnvironmentPaths = Environment<string>;
+
+const CURRENT_ENV = (function getCurrentEnv(): keyof Environment {
   return 'darwin';
 })();
 
@@ -48,49 +51,127 @@ type NISoftwareResourceMap = {
  * Describes if a resource exists.
  */
 export interface ResourceStat {
+  softwareName?: string;
   path: string;
   exists: boolean;
   byteSize: number;
 }
 
+// capatilize each first letter of each word in string
+function capitalize(str: string): string {
+  return str
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
 class ResourcePath {
+  dir: string;
+
   constructor(
     public readonly type: NIDataType,
-    public readonly path: SupportedEnvironments
-  ) {}
+    envPaths: EnvironmentPaths,
+    public readonly searchSchema: string
+  ) {
+    this.dir = envPaths[CURRENT_ENV];
+  }
 
-  format(productName: string) {
-    return this.path[CURRENT_ENV].replace(`<productName>`, productName);
+  exists(productName: string) {
+    return fs.existsSync(this.productPath(productName));
+  }
+
+  productPath(productName: string) {
+    return path.join(this.dir, productName);
+  }
+
+  formatSearchSchema(productName: string) {
+    return this.dir.replace(`<productName>`, productName);
+  }
+
+  find(): ResourceStat[] {
+    const files = fs.readdirSync(this.dir);
+    const resources: ResourceStat[] = [];
+
+    let productPath: string;
+    let stat: fs.Stats;
+
+    const appendResource = (softwareName: string) => {
+      resources.push({
+        softwareName: capitalize(softwareName),
+        exists: true,
+        path: productPath,
+        byteSize: stat.size
+      });
+    };
+
+    files.forEach((f) => {
+      productPath = this.productPath(f);
+      stat = fs.statSync(productPath);
+
+      if (this.type === 'folder' && stat.isDirectory()) {
+        appendResource(f);
+      }
+
+      if (this.type === 'plist') {
+        const plistTokens = f.split('.');
+
+        if (
+          plistTokens.length === 4 &&
+          plistTokens.slice(0, 2).join('.') === 'com.native-instruments' &&
+          plistTokens[plistTokens.length - 1] === 'plist'
+        ) {
+          appendResource(plistTokens[2]);
+        }
+      }
+    });
+
+    return resources;
   }
 }
 
-const RESOUCE_MAP: NISoftwareResourceMap = {
+const RESOURCE_MAP: NISoftwareResourceMap = {
   Application: [
-    new ResourcePath('folder', {
-      darwin: '/Applications/Native Instruments/<productName>'
-    }),
-    new ResourcePath('plist', {
-      darwin: '/Library/Preferences/com.native-instruments.<productName>.plist'
-    })
+    new ResourcePath(
+      'folder',
+      { darwin: '/Applications/Native Instruments' },
+      '<productName>'
+    ),
+    new ResourcePath(
+      'plist',
+      { darwin: '/Library/Preferences' },
+      'com.native-instruments.<productName>.plist'
+    )
   ],
   Plugin: [],
   Support: []
 };
 
-export function findNISoftware(name: string): NISoftware[] {
-  return [
-    {
-      name: 'X',
-      resources: [
-        {
-          exists: true,
-          path: '',
-          byteSize: 0
-        }
-      ],
-      type: 'Application'
-    }
-  ];
+export function findNISoftware(type: NISoftwareType): NISoftware[] {
+  const resources = RESOURCE_MAP[type];
+
+  const software: NISoftware[] = [];
+
+  resources.forEach((r) => {
+    const resourceStats = r.find();
+
+    resourceStats.forEach((rs) => {
+      const { softwareName, ...resource } = rs;
+
+      const index = software.findIndex((s) => s.name === softwareName);
+
+      if (index === -1) {
+        software.push({
+          name: softwareName!,
+          type,
+          resources: [resource]
+        });
+      } else {
+        software[index].resources.push(resource);
+      }
+    });
+  });
+
+  return software;
 }
 
 /**
@@ -103,16 +184,16 @@ export function searchForNISoftware(
   type: NISoftwareType,
   name: string
 ): NISoftware {
-  const paths = RESOUCE_MAP[type];
+  const paths = RESOURCE_MAP[type];
 
-  const formattedPaths = paths.map((path) => path.format(name));
+  const resources: ResourceStat[] = paths.map((path) => {
+    const exists = path.exists(name);
+    const productPath = path.productPath(name);
 
-  const resources: ResourceStat[] = formattedPaths.map((path) => {
-    const exists = fs.existsSync(path);
     return {
-      path,
+      path: productPath,
       exists,
-      byteSize: exists ? fs.statSync(path).size : 0
+      byteSize: exists ? fs.statSync(productPath).size : 0
     };
   });
 
