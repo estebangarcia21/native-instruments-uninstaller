@@ -4,16 +4,14 @@
     "module": "AMD",
     "lib": ["es5"],
     "strict": true,
-    "pretty": true,
-    "sourceMap": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
-    "noImplicitAny": false
+    "outDir": "dist",
+    "baseUrl": "libs"
   },
-  "include": ["*.ts"],
   "exclude": ["**/*.spec.ts"]
 }
