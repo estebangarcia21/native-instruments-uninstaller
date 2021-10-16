@@ -1,5 +1,8 @@
 const path = require('path');
 const webpackPaths = require('./webpack.paths.contextBridge');
+const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
+
+const tsconfig = 'tsconfig.contextBridge.json';
 
 module.exports = {
   target: 'electron-main',
@@ -13,18 +16,25 @@ module.exports = {
     }
   },
   resolve: {
-    extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx'],
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, tsconfig)
+      })
+    ]
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: {
-          loader: 'ts-loader',
-          options: {
-            configFile: 'tsconfig.contextBridge.json'
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: tsconfig
+            }
           }
-        }
+        ]
       }
     ]
   }

@@ -13,4 +13,4 @@ export default fs
   .readdirSync(webpackPaths.libsDir)
   .map((f) => stripFileEnding(f))
   .filter((f) => f !== exporterFileName)
-  .map((f) => require(`./${f}`).default);
+  .map((f) => require(`./${f}/index`).default);

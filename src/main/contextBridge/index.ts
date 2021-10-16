@@ -1,3 +1,8 @@
+export interface ElectronContextIsolationLib<T> {
+  name: string;
+  contents: T;
+}
+
 export default function lib<T>(
   name: string,
   contents: T
