@@ -7,13 +7,18 @@ export default function Home() {
   const [search, onSearch] = React.useState('');
 
   return (
-    <div className="h-screen bg-white">
-      <Navbar />
+    <div className="flex flex-row bg-white">
+      <div className="flex-[3] h-screen p-8">
+        <div>
+          <Searchbar onSearch={onSearch} />
+        </div>
 
-      <Searchbar onSearch={onSearch} />
-      <h1 className="text-xl font-bold text-center">Libraries</h1>
+        <div className="mt-8">
+          <SoftwareList search={search} />
+        </div>
+      </div>
 
-      <SoftwareList search={search} />
+      {/* <div className="sticky top-0 w-14 h-14 rounded-full bg-white shadow-xl border"></div> */}
     </div>
   );
 }

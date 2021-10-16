@@ -5,6 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800&family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Mono&display=swap');
 
 * {
   margin: 0;
@@ -13,13 +14,14 @@
 
 h1,
 h2 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Maven Pro', sans-serif;
 }
 
 p {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
 }
 
 input {
-  font-family: 'Fira Code', monospace;
+  @apply tracking-wide;
+  font-family: 'Noto Sans', monospace;
 }
