@@ -203,7 +203,7 @@
     "css-loader": "^5.2.4",
     "css-minimizer-webpack-plugin": "^2.0.0",
     "detect-port": "^1.3.0",
-    "electron": "^15.1.0",
+    "electron": "^13.1.8",
     "electron-builder": "^22.11.1",
     "electron-devtools-installer": "^3.2.0",
     "electron-notarize": "^1.0.0",
@@ -257,7 +257,6 @@
     "yarn-deduplicate": "^3.1.0"
   },
   "dependencies": {
-    "@electron/remote": "^2.0.1",
     "@react-icons/all-files": "^4.1.0",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.3.5",
@@ -265,7 +264,6 @@
     "get-folder-size": "^3.1.0",
     "history": "4.x.x",
     "react": "^17.0.2",
-    "react-awesome-loaders": "^0.1.37",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
     "regenerator-runtime": "^0.13.5"
