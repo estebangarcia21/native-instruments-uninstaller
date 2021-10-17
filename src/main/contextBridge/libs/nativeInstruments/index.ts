@@ -1,19 +1,24 @@
 import fs from 'fs';
-// @ts-ignore
-import lib from '~contextBridge';
+import lib from '../..';
 import resourcePaths, {
   NISoftware,
   NISoftwareType,
   ResourceStat
 } from './resource';
 
-export function findNISoftware(type: NISoftwareType): NISoftware[] {
+export async function findNISoftware(
+  type: NISoftwareType
+): Promise<NISoftware[]> {
   const resources = resourcePaths[type];
 
   const software: NISoftware[] = [];
 
-  resources.forEach((r) => {
-    const resourceStats = r.find();
+  for (const r of resources) {
+    if (!fs.existsSync(r.dir)) {
+      continue;
+    }
+
+    const resourceStats = await r.find();
 
     resourceStats.forEach((rs) => {
       const { softwareName, ...resource } = rs;
@@ -30,7 +35,7 @@ export function findNISoftware(type: NISoftwareType): NISoftware[] {
         software[index].resources.push(resource);
       }
     });
-  });
+  }
 
   return software;
 }
