@@ -7,10 +7,12 @@ export default function SplashScreen() {
   useEffect(() => {
     setTimeout(() => {
       history.push('/home');
-    }, 500);
+    }, 750);
   });
 
   return (
-    <div style={{ height: '100vh', background: 'gray' }}>Splash Screen</div>
+    <h1 className="bg-indigo-600 text-white font-semibold text-4xl h-screen flex flex-col justify-center items-center">
+      Native Instruments Uninstaller
+    </h1>
   );
 }
