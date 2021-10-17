@@ -1,4 +1,5 @@
 import fs from 'fs';
+import getFolderSize from 'get-folder-size';
 import path from 'path';
 import { currentEnv, OSResourcePaths } from './platform';
 import { capitalize } from './util';
@@ -15,7 +16,7 @@ export interface NISoftware {
 /**
  * The type of software a Native Instruments installation is.
  */
-export type NISoftwareType = 'Application' | 'Plugin' | 'Support';
+export type NISoftwareType = 'application' | 'plugin' | 'dataAndSupport';
 
 /**
  * The type of data a Native Instruments installation depends on.
@@ -68,28 +69,32 @@ export class ResourcePath {
     return this.dir.replace(`<productName>`, productName);
   }
 
-  find(): ResourceStat[] {
+  async find(): Promise<ResourceStat[]> {
     const files = fs.readdirSync(this.dir);
     const resources: ResourceStat[] = [];
 
     let productPath: string;
     let stat: fs.Stats;
 
-    const appendResource = (softwareName: string) => {
+    const appendResource = async (softwareName: string) => {
+      const size = stat.isDirectory()
+        ? await getFolderSize.loose(productPath)
+        : stat.size;
+
       resources.push({
         softwareName: capitalize(softwareName),
         exists: true,
         path: productPath,
-        byteSize: stat.size
+        byteSize: size
       });
     };
 
-    files.forEach((f) => {
+    for (const f of files) {
       productPath = this.productPath(f);
       stat = fs.statSync(productPath);
 
       if (this.type === 'folder' && stat.isDirectory()) {
-        appendResource(f);
+        await appendResource(f);
       }
 
       if (this.type === 'plist') {
@@ -100,17 +105,26 @@ export class ResourcePath {
           plistTokens.slice(0, 2).join('.') === 'com.native-instruments' &&
           plistTokens[plistTokens.length - 1] === 'plist'
         ) {
-          appendResource(plistTokens[2]);
+          await appendResource(plistTokens[2]);
         }
       }
-    });
+
+      if (
+        this.type === 'aaxplugin' ||
+        this.type === 'vst' ||
+        this.type === 'dpm' ||
+        this.type === 'component'
+      ) {
+        await appendResource(f.split('.')[0]);
+      }
+    }
 
     return resources;
   }
 }
 
 const resourcePaths: NISoftwareResourceMap = {
-  Application: [
+  application: [
     new ResourcePath(
       'folder',
       { osx: '/Applications/Native Instruments' },
@@ -122,8 +136,37 @@ const resourcePaths: NISoftwareResourceMap = {
       'com.native-instruments.<productName>.plist'
     )
   ],
-  Plugin: [],
-  Support: []
+  plugin: [
+    new ResourcePath(
+      'component',
+      { osx: '/Library/Audio/Plug-Ins/Components' },
+      '<productName>.component'
+    ),
+    new ResourcePath(
+      'vst',
+      { osx: '/Library/Audio/Plug-Ins/VST' },
+      '<productName>.vst'
+    ),
+    new ResourcePath(
+      'component',
+      { osx: '/Library/Application Support/Digidesign/Plug-Ins' },
+      '<productName>.dpm'
+    ),
+    new ResourcePath(
+      'component',
+      { osx: '/Library/Application Support/Avid/Audio/Plug-Ins' },
+      '<productName>.aaxplugin'
+    )
+  ],
+  dataAndSupport: [
+    new ResourcePath(
+      'folder',
+      { osx: '/Library/Application Support/Native Instruments' },
+      '<productName>'
+    ),
+    // Content file
+    new ResourcePath('folder', { osx: '/Users/Shared' }, '<productName>')
+  ]
 };
 
 export default resourcePaths;
