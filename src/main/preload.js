@@ -1,11 +1,6 @@
-// @ts-check
-
 const { contextBridge, ipcRenderer } = require('electron');
 
 require('./contextBridge/dist/libs').default.forEach((lib) => {
-  /**
-   * @type {ElectronContextIsolationLib<unknown>}
-   */
   const { name, contents } = lib;
 
   contextBridge.exposeInMainWorld(name, contents);
